@@ -44,4 +44,12 @@ public class Cell {
     public void setCellState(CellState cellState) {
         this.cellState = cellState;
     }
+
+    public void display() {
+        if(player == null) {
+            System.out.print("| - |");
+        } else {
+            System.out.print("| "+ player.getSymbol().getaChar() + " |");
+        }
+    }
 }

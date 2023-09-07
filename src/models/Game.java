@@ -3,7 +3,7 @@ package models;
 import Exceptions.BotCountMoreThanOneException;
 import Exceptions.PlayerCountException;
 import Exceptions.SymbolUniquenessException;
-import Strategies.WinningStrategies;
+import Strategies.WinningStrategies.WinningStrategy;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -13,13 +13,13 @@ public class Game {
     private List<Player> players;
     private Board board;
     private List<Move> moves;
-    private List<WinningStrategies> winningStrategies;
+    private List<WinningStrategy> winningStrategies;
     private Player winner;
     private int nextPlayerIndex;
     private GameState gameState;
     private int dimensions;
 
-    public Game(int dimensions, List<Player> players, List<WinningStrategies> winningStrategies) {
+    public Game(int dimensions, List<Player> players, List<WinningStrategy> winningStrategies) {
         this.players = players;
         this.board = new Board(dimensions);
         this.moves = new ArrayList<>();
@@ -57,11 +57,11 @@ public class Game {
         this.moves = moves;
     }
 
-    public List<WinningStrategies> getWinningStrategies() {
+    public List<WinningStrategy> getWinningStrategies() {
         return winningStrategies;
     }
 
-    public void setWinningStrategies(List<WinningStrategies> winningStrategies) {
+    public void setWinningStrategies(List<WinningStrategy> winningStrategies) {
         this.winningStrategies = winningStrategies;
     }
 
@@ -99,7 +99,7 @@ public class Game {
 
     public static class Builder {
         private List<Player> players;
-        private List<WinningStrategies> winningStrategies;
+        private List<WinningStrategy> winningStrategies;
         private int dimensions;
 
         public Builder setPlayers(List<Player> players) {
@@ -107,7 +107,7 @@ public class Game {
             return this;
         }
 
-        public Builder setWinningStrategies(List<WinningStrategies> winningStrategies) {
+        public Builder setWinningStrategies(List<WinningStrategy> winningStrategies) {
             this.winningStrategies = winningStrategies;
             return this;
         }
@@ -192,6 +192,10 @@ public class Game {
         moves.add(finalMoveObject);
         nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
 
+
+    }
+
+    public void printBoard() {
 
     }
 }
