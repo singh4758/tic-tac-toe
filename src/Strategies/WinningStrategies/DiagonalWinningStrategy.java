@@ -5,6 +5,7 @@ import models.Move;
 import models.Symbol;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class DiagonalWinningStrategy implements WinningStrategy {
     HashMap<Symbol, Integer> leftDiagCount = new HashMap<>();
@@ -36,5 +37,19 @@ public class DiagonalWinningStrategy implements WinningStrategy {
             return true;
         }
         return false;
+    }
+
+    public void handleUndo(Board board, Move move) {
+        int row = move.getCell().getRow();
+        int col = move.getCell().getCol();
+        Symbol symbol = move.getPlayer().getSymbol();
+
+        if(row == col) {
+            leftDiagCount.put(symbol, leftDiagCount.get(symbol)-1);
+        }
+
+        if(row + col == board.getSize()-1) {
+            rightDiagCount.put(symbol, rightDiagCount.get(symbol)-1);
+        }
     }
 }

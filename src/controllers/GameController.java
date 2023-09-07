@@ -5,6 +5,7 @@ import Exceptions.PlayerCountException;
 import Exceptions.SymbolUniquenessException;
 import Strategies.WinningStrategies.WinningStrategy;
 import models.Game;
+import models.GameState;
 import models.Player;
 
 import java.util.List;
@@ -20,10 +21,22 @@ public class GameController {
     }
 
     public void makeMove(Game game) {
-        Player currentMovePlayer = game.getPlayers();
+        game.makeMove();
     }
 
-    public void checkGameState(Game game) {
+    public GameState checkGameState(Game game) {
+        return game.getGameState();
+    }
 
+    public void printBoard(Game game) {
+        game.printBoard();
+    }
+
+    public void undo(Game game) {
+        game.undo();
+    }
+
+    public static String getWinner(Game game) {
+        return game.getWinner().getName();
     }
 }

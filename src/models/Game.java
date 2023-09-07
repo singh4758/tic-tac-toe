@@ -131,7 +131,7 @@ public class Game {
         }
 
         private void validateDimensionAndPlayerCount() throws PlayerCountException {
-            if(players.size() <= this.dimensions-1) {
+            if(players.size() > this.dimensions-1) {
                 throw new PlayerCountException();
             }
         }
@@ -173,6 +173,15 @@ public class Game {
         return true;
     }
 
+    public boolean checkWinner(Board board, Move move) {
+        for (WinningStrategy winningStrategy: winningStrategies) {
+            if(winningStrategy.checkWinner(board, move)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void  makeMove() {
         Player currentMovePlayer = players.get(nextPlayerIndex);
         System.out.println("It is "+ currentMovePlayer.getName()+" .");
@@ -192,10 +201,34 @@ public class Game {
         moves.add(finalMoveObject);
         nextPlayerIndex = (nextPlayerIndex + 1) % players.size();
 
+        if(checkWinner(board, finalMoveObject)) {
+            gameState = GameState.WIN;
+            winner = currentMovePlayer;
+        } else if (moves.size() == board.getSize() * board.getSize()) {
+            gameState = GameState.DRAW;
+        }
 
     }
 
     public void printBoard() {
+        board.printBoard();
+    }
 
+    public void undo() {
+        if(moves.isEmpty()) {
+            System.out.println("No moves to undo");
+            return;
+        }
+
+        Move lastMove = moves.get(moves.size()-1);
+        moves.remove(lastMove);
+        Cell cell = lastMove.getCell();
+        cell.setPlayer(null);
+        cell.setCellState(CellState.EMPTY);
+        for(WinningStrategy winningStrategy: winningStrategies) {
+            winningStrategy.handleUndo(board, lastMove);
+        }
+
+        nextPlayerIndex = (nextPlayerIndex - 1 + board.getSize())% board.getSize();
     }
 }

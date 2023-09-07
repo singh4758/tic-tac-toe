@@ -5,6 +5,7 @@ import models.Move;
 import models.Symbol;
 
 import java.util.HashMap;
+import java.util.Map;
 
 public class RowWinningStrategy implements WinningStrategy {
     HashMap<Integer, HashMap<Symbol, Integer>> countMap = new HashMap<>();
@@ -25,5 +26,12 @@ public class RowWinningStrategy implements WinningStrategy {
         rowMap.put(symbol, rowMap.get(symbol)+1);
 
         return rowMap.get(symbol) == board.getSize();
+    }
+
+    public void handleUndo(Board board, Move move) {
+        int row = move.getCell().getRow();
+        Symbol symbol = move.getPlayer().getSymbol();
+        Map<Symbol, Integer> rowMap = countMap.get(row);
+        rowMap.put(symbol, rowMap.get(symbol)-1);
     }
 }

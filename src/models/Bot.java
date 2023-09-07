@@ -1,6 +1,8 @@
 package models;
 
 import Strategies.BotPlaying.BotPlayingStrategy;
+import Strategies.BotPlaying.BotPlayingStrategyFactory;
+import Strategies.BotPlaying.EasyBotPlayingStrategy;
 
 public class Bot extends Player {
     private BotDifficultyLevel botDifficultyLevel;
@@ -9,6 +11,7 @@ public class Bot extends Player {
     public Bot(Long id, String name, Symbol symbol, BotDifficultyLevel botDifficultyLevel) {
         super(id, name, symbol, PlayerType.BOT);
         this.botDifficultyLevel = botDifficultyLevel;
+        botPlayingStrategy = BotPlayingStrategyFactory.getBotPlayingStrategyForDifficultyLevel(botDifficultyLevel);
     }
 
     public BotDifficultyLevel getBotDifficultyLevel() {
